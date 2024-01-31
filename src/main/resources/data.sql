@@ -1,8 +1,22 @@
-INSERT INTO Products(name,quantity,unitPrice)
+DROP TABLE IF EXISTS books;
+DROP TABLE IF EXISTS authors;
+CREATE TABLE authors(
 
-VALUES
-('JasmIne Rice',10,1.5),
-('Royal Aroma',15,2.0),
-('Sofia rice',20,2.5),
-('Gino rice',25,3.0),
-('Frytol',30,3.5);
+author_id SMALLINT PRIMARY KEY AUTO_INCREMENT,
+name VARCHAR(255),
+age SMALLINT);
+
+
+
+
+CREATE TABLE books(
+
+author_id SMALLINT NOT NULL,
+isbn VARCHAR(255),
+title VARCHAR(255),
+
+
+ -- Table reference
+ CONSTRAINT linksAuthors FOREIGN KEY(author_id)
+ REFERENCES authors(author_id)
+ ON UPDATE CASCADE ON DELETE CASCADE);

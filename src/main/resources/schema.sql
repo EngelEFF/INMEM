@@ -1,6 +1,0 @@
-DROP TABLE IF EXISTS Products;
-CREATE TABLE  Products(
-productID SMALLINT PRIMARY KEY AUTO_INCREMENT,
-name VARCHAR(50),
-quantity INT,
-unitPrice DOUBLE);
