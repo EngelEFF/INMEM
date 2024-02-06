@@ -16,16 +16,16 @@ public class AuthorsService {
 
     private AuthorRepo authorRepo;
 
-    private Authors author;
+
 
     @Autowired
-    public AuthorsService(Authors author, AuthorRepo authorRepo){
-        this.author = author;
+    public AuthorsService(AuthorRepo authorRepo){
         this.authorRepo = authorRepo;
     }
 
 
     public Authors InsertAuthor(Authors author){
+
         return authorRepo.save(author);
     }
 
@@ -35,6 +35,11 @@ public class AuthorsService {
         return authorRepo.findById(id);
     }
 
+    public List<Authors> findAllEntities(){
+
+        List<Authors> authors = authorRepo.findAll();
+
+    }
 
     public void deleteAuthor(Long id){
         authorRepo.deleteById(id);

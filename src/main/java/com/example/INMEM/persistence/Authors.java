@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class Authors {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "author_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long authorID;
     String name;
     int age;
