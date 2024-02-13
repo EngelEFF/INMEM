@@ -1,10 +1,6 @@
 package com.example.INMEM.persistence;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 
 @Entity
@@ -12,18 +8,21 @@ import lombok.NoArgsConstructor;
 public class Authors {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator="author_id_seq")
     private Long authorID;
     String name;
     int age;
 
     public Authors(){ }
 
+
+    /*
     public Authors(String name, int age){
 
         this.name = name;
         this.age = age;
     }
+
 
     public void setName(String name) {
 
@@ -40,6 +39,40 @@ public class Authors {
 
     public int getAge(){
         return age;
+    }
+
+
+     */
+
+
+    // getters
+    public String getName(){
+        return name;
+    }
+
+    public int getAge(){
+        return age;
+    }
+
+    // builder
+    public static class builder {
+        private final Authors author  = new Authors();
+
+
+        public builder setName(String name){
+            author.name = name;
+            return this;
+        }
+
+        public builder setAge(int age){
+            author.age = age;
+            return this;
+        }
+
+        public Authors build(){
+            return author;
+        }
+
     }
 }
 

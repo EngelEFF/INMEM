@@ -20,6 +20,7 @@ public class AuthorsService {
 
     @Autowired
     public AuthorsService(AuthorRepo authorRepo){
+
         this.authorRepo = authorRepo;
     }
 
@@ -30,24 +31,24 @@ public class AuthorsService {
     }
 
 
-    public Optional<Authors> findbyId(Long id){
+    public Optional<Authors> findAuthorById(Long id){
 
         return authorRepo.findById(id);
     }
 
     public List<Authors> findAllEntities(){
 
-        List<Authors> authors = authorRepo.findAll();
+        return authorRepo.findAll();
 
     }
-
+/*
     public void deleteAuthor(Long id){
         authorRepo.deleteById(id);
     }
 
     public String updateAuthorName(Authors updatedAuthorEntity, Long id){
 
-        Optional<Authors> potentialExistingEntity = findbyId(id);
+        Optional<Authors> potentialExistingEntity = findAuthorById(id);
 
         if(potentialExistingEntity.isPresent()){
 
@@ -57,15 +58,31 @@ public class AuthorsService {
 
             return "Name updated successfully";
         }
+
+
         else{
 
             throw new EntityNotFoundException("Entity not found");
         }
 
+ */
 
+
+    public List<Authors> ageLessThan(int age){
+        return authorRepo.ageLessThan(age);
     }
 
+    public List<Authors> ageGreaterThan(int age){
 
+        return authorRepo.ageGreaterThan(age);
+    }
 
-
+    public List<Authors> findAgeGreaterThan(int age){
+      return  authorRepo.findAuthorWithAgeGreaterThan(age);
+    }
 }
+
+
+
+
+
