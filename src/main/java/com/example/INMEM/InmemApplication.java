@@ -1,38 +1,85 @@
 package com.example.INMEM;
 
-import com.example.INMEM.persistence.Products;
-import com.example.INMEM.service.ProductService;
+
+import com.example.INMEM.persistence.Authors;
+import com.example.INMEM.persistence.Books;
+import com.example.INMEM.service.AuthorsService;
+import com.example.INMEM.service.BooksService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.CommandLineRunner;
 
-import javax.sql.DataSource;
-
 @SpringBootApplication
 public class InmemApplication implements CommandLineRunner{
 
-	ProductService productService;
+	private BooksService bookService;
+	private AuthorsService authorService;
 
-	public InmemApplication(ProductService productService){this.productService = productService;}
+	public InmemApplication(AuthorsService authorsService, BooksService bookService){
+
+		this.authorService = authorsService;
+		this.bookService = bookService;
+
+	}
+
 	public static void main(String[] args) {
 		SpringApplication.run(InmemApplication.class, args);
 	}
 
 	public void run(String... args){
 
-		Products products = new Products();
-		products.setName("Tomato pastes");
-		products.setQuantity(5);
-		products.setUnitPrice(3.5);
-		productService.InsertNewProduct(products);
+
+		Authors authorA = new Authors.builder().
+				setName("Kwin").
+				setAge(25).
+				build();
 
 
-		products.setName("Tomato pastes");
-		products.setQuantity(5);
-		products.setUnitPrice(3.5);
-		productService.InsertNewProduct(products);
 
-		System.out.println(productService.findAllProducts());
+
+			Books booksA = new Books.builder().
+					setTitle("Cinderella").
+					setIsbn("a").
+					setAuthor(authorA).
+					build();
+
+		bookService.createNewBook(booksA);
+
+
+
+		Authors authorB = new Authors.builder().
+				setName("Birian").
+				setAge(25).
+				build();
+
+
+
+		Books booksB = new Books.builder().
+				setTitle("Ananse in the Land of idiots").
+				setIsbn("ab").
+				setAuthor(authorB).
+				build();
+
+		bookService.createNewBook(booksB);
+
+
+
+
+		Authors authorC = new Authors.builder().
+				setName("William ShakesPeare").
+				setAge(27).
+				build();
+
+
+
+		Books booksC = new Books.builder().
+				setTitle("The Merchant of Venice").
+				setIsbn("abc").
+				setAuthor(authorC).
+				build();
+
+		bookService.createNewBook(booksC);
+
 
 
 	}
