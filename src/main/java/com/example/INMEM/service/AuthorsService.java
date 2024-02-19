@@ -25,6 +25,11 @@ public class AuthorsService {
     }
 
 
+    public void deleteAuthor(Long id){
+
+        authorRepo.deleteById(id);
+    }
+
     public Authors InsertAuthor(Authors author){
 
         return authorRepo.save(author);

@@ -5,6 +5,8 @@ import com.example.INMEM.persistence.Authors;
 import com.example.INMEM.persistence.Books;
 import com.example.INMEM.service.AuthorsService;
 import com.example.INMEM.service.BooksService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.CommandLineRunner;
@@ -14,11 +16,15 @@ public class InmemApplication implements CommandLineRunner{
 
 	private BooksService bookService;
 	private AuthorsService authorService;
+	private ObjectMapper objectMapper;
 
-	public InmemApplication(AuthorsService authorsService, BooksService bookService){
+	public InmemApplication(AuthorsService authorsService,
+							BooksService bookService,
+							ObjectMapper objectMapper){
 
 		this.authorService = authorsService;
 		this.bookService = bookService;
+		this.objectMapper = objectMapper;
 
 	}
 
@@ -26,7 +32,7 @@ public class InmemApplication implements CommandLineRunner{
 		SpringApplication.run(InmemApplication.class, args);
 	}
 
-	public void run(String... args){
+	public void run(String... args) throws JsonProcessingException {
 
 
 		Authors authorA = new Authors.builder().
@@ -82,6 +88,9 @@ public class InmemApplication implements CommandLineRunner{
 
 
 
+
+
+		objectMapper.writeValueAsString(booksA);
 	}
 
 }

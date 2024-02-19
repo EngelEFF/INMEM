@@ -1,5 +1,6 @@
 package com.example.INMEM.persistence;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 
@@ -10,7 +11,11 @@ public class Authors {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator="author_id_seq")
     private Long authorID;
+
+    @JsonProperty("Author's name")
     String name;
+
+    @JsonProperty("Author's age")
     int age;
 
     public Authors(){ }

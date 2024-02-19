@@ -1,6 +1,7 @@
 package com.example.INMEM.persistence;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
 
@@ -10,6 +11,7 @@ import jakarta.persistence.*;
 //@Builder
 @Entity
 @Table(name = "books")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Books {
 
 
@@ -97,7 +99,6 @@ public class Books {
         }
 
         public Books build(){
-
             return book;
         }
 
