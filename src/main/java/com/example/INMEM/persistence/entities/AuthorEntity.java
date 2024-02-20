@@ -10,42 +10,30 @@ public class AuthorEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator="author_id_seq")
     private Long authorID;
-
-
     String name;
     int age;
 
     public AuthorEntity(){ }
 
 
-    /*
-    public Authors(String name, int age){
+    //setters
 
-        this.name = name;
-        this.age = age;
+    public void setAuthorID(Long authorID){
+        this.authorID = authorID;
     }
-
 
     public void setName(String name) {
 
         this.name = name;
     }
 
-    public String getName(){
-        return name;
-    }
-
     public void setAge(int age){
         this.age = age;
     }
 
-    public int getAge(){
-        return age;
+    public Long getAuthorID() {
+        return authorID;
     }
-
-
-     */
-
 
     // getters
     public String getName(){

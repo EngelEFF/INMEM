@@ -6,7 +6,9 @@ import com.example.INMEM.persistence.DTOs.AuthorDTO;
 import com.example.INMEM.persistence.entities.AuthorEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class AuthorMapper implements Mapper<AuthorEntity, AuthorDTO> {
 
     private ModelMapper modelMapper;

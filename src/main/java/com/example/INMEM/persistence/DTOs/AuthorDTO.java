@@ -1,26 +1,34 @@
 package com.example.INMEM.persistence.DTOs;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 
-@Component
 public class AuthorDTO {
 
-
+    public Long authorID;
     public String name;
-
     public int age;
 
-    public AuthorDTO(){ }
+    public AuthorDTO(){}
 
 
 
-    private AuthorDTO(String name, int age){
 
+
+    //setters
+
+
+
+    public void setAuthorID(Long authorID){
+        this.authorID = authorID;
     }
-
 
     public void setName(String name) {
 
@@ -40,6 +48,11 @@ public class AuthorDTO {
 
     public int getAge(){
         return age;
+    }
+
+
+    public Long getAuthorID() {
+        return authorID;
     }
 
     // builder
@@ -65,4 +78,3 @@ public class AuthorDTO {
 
 
 }
-
