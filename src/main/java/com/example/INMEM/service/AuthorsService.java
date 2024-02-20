@@ -1,9 +1,8 @@
 package com.example.INMEM.service;
 
 
-import com.example.INMEM.persistence.AuthorRepo;
-import com.example.INMEM.persistence.Authors;
-import jakarta.persistence.EntityNotFoundException;
+import com.example.INMEM.persistence.DAOs.AuthorRepo;
+import com.example.INMEM.persistence.entities.AuthorEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,18 +29,18 @@ public class AuthorsService {
         authorRepo.deleteById(id);
     }
 
-    public Authors InsertAuthor(Authors author){
+    public AuthorEntity createAuthor(AuthorEntity authorEntity){
 
-        return authorRepo.save(author);
+        return authorRepo.save(authorEntity);
     }
 
 
-    public Optional<Authors> findAuthorById(Long id){
+    public Optional<AuthorEntity> findAuthorById(Long id){
 
         return authorRepo.findById(id);
     }
 
-    public List<Authors> findAllEntities(){
+    public List<AuthorEntity> findAllEntities(){
 
         return authorRepo.findAll();
 
@@ -71,20 +70,6 @@ public class AuthorsService {
         }
 
  */
-
-
-    public List<Authors> ageLessThan(int age){
-        return authorRepo.ageLessThan(age);
-    }
-
-    public List<Authors> ageGreaterThan(int age){
-
-        return authorRepo.ageGreaterThan(age);
-    }
-
-    public List<Authors> findAgeGreaterThan(int age){
-      return  authorRepo.findAuthorWithAgeGreaterThan(age);
-    }
 }
 
 

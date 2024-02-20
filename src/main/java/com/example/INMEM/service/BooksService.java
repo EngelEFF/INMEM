@@ -1,31 +1,30 @@
 package com.example.INMEM.service;
 
 
-import com.example.INMEM.persistence.Books;
-import com.example.INMEM.persistence.BooksRepo;
+import com.example.INMEM.persistence.entities.BookEntity;
+import com.example.INMEM.persistence.DAOs.BookRepo;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
 public class BooksService {
 
-    private BooksRepo booksRepo;
+    private BookRepo bookRepo;
 
-    public BooksService(BooksRepo booksRepo){
-        this.booksRepo = booksRepo;
+    public BooksService(BookRepo bookRepo){
+        this.bookRepo = bookRepo;
     }
 
 
-    public void createNewBook(Books book){
+    public void createNewBook(BookEntity bookEntity){
 
-        booksRepo.save(book);
+        bookRepo.save(bookEntity);
     }
 
-    public  Optional<Books> findBookById(String id){
+    public  Optional<BookEntity> findBookById(String id){
 
-        return booksRepo.findById(id);
+        return bookRepo.findById(id);
     }
 
 

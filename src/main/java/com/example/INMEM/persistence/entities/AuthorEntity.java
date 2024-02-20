@@ -1,24 +1,21 @@
-package com.example.INMEM.persistence;
+package com.example.INMEM.persistence.entities;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 
 @Entity
 @Table(name = "authors")
-public class Authors {
+public class AuthorEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator="author_id_seq")
     private Long authorID;
 
-    @JsonProperty("Author's name")
-    String name;
 
-    @JsonProperty("Author's age")
+    String name;
     int age;
 
-    public Authors(){ }
+    public AuthorEntity(){ }
 
 
     /*
@@ -61,21 +58,21 @@ public class Authors {
 
     // builder
     public static class builder {
-        private final Authors author  = new Authors();
+        private final AuthorEntity authorEntity = new AuthorEntity();
 
 
         public builder setName(String name){
-            author.name = name;
+            authorEntity.name = name;
             return this;
         }
 
         public builder setAge(int age){
-            author.age = age;
+            authorEntity.age = age;
             return this;
         }
 
-        public Authors build(){
-            return author;
+        public AuthorEntity build(){
+            return authorEntity;
         }
 
     }

@@ -1,28 +1,21 @@
-package com.example.INMEM.persistence;
+package com.example.INMEM.persistence.DTOs;
 
 
+import com.example.INMEM.persistence.entities.AuthorEntity;
+import com.example.INMEM.persistence.entities.BookEntity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
+import org.springframework.stereotype.Component;
 
-//@Data
-//@AllArgsConstructor
-//@NoArgsConstructor
-//@Builder
-@Entity
-@Table(name = "books")
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Books {
+@Component
+public class BookDTO {
 
 
-    @Id
     private String isbn;
 
     private String title;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "author_id")
-    private Authors authors;
+    private AuthorEntity authorEntity;
 
     /*
     public void setTitle(String title){
@@ -55,78 +48,54 @@ public class Books {
     both constructors;
 
      */
-    private Books(String name){
+    private BookDTO(String name) {
         throw new IllegalStateException("Use Builder for initialization");
     }
 
 
     // Default constructor for JPA
-    public Books(){
+    public BookDTO() {
 
     }
 
 
     // getters;
 
-    public String getIsbn(){
+    public String getIsbn() {
         return isbn;
     }
 
-    public String getTitle(){
+    public String getTitle() {
         return title;
     }
 
     // Class Builder
     public static class builder {
 
-        private final Books book = new Books();
+        private final BookDTO bookDto = new BookDTO();
 
 
-        public builder setTitle(String title){
-            book.title = title;
+        public builder setTitle(String title) {
+            bookDto.title = title;
             return this;
         }
 
 
-        public builder setIsbn(String isbn){
-            book.isbn = isbn;
+        public builder setIsbn(String isbn) {
+            bookDto.isbn = isbn;
             return this;
         }
 
-        public builder setAuthor(Authors author){
-            book.authors = author;
+        public builder setAuthor(AuthorEntity authorEntity) {
+            bookDto.authorEntity = authorEntity;
             return this;
         }
 
-        public Books build(){
-            return book;
+        public BookDTO build() {
+            return bookDto;
         }
 
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
