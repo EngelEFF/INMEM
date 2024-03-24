@@ -1,7 +1,8 @@
-package com.example.INMEM.persistence;
+package com.example.INMEM.persistence.entities;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 //@Data
@@ -10,7 +11,8 @@ import jakarta.persistence.*;
 //@Builder
 @Entity
 @Table(name = "books")
-public class Books {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class BookEntity {
 
 
     @Id
@@ -20,17 +22,13 @@ public class Books {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "author_id")
-    private Authors authors;
+    @JsonProperty("author")
+    private AuthorEntity authorEntity;
 
-    /*
+
     public void setTitle(String title){
         this.title = title;
     }
-
-    public String getTitle(){
-        return title;
-    }
-
 
     public void setIsbn(String isbn){
         this.isbn = isbn;
@@ -40,10 +38,10 @@ public class Books {
         return isbn;
     }
 
-    public Authors getAuthors() {
-        return authors;
+    public AuthorEntity getAuthors() {
+        return authorEntity;
     }
-*/
+
 
     // private constructor to assert the use of builder class
 
@@ -53,52 +51,41 @@ public class Books {
     both constructors;
 
      */
-    private Books(String name){
+    private BookEntity(String name){
         throw new IllegalStateException("Use Builder for initialization");
     }
 
 
     // Default constructor for JPA
-    public Books(){
+    public BookEntity(){
 
     }
 
-
-    // getters;
-
-    public String getIsbn(){
-        return isbn;
-    }
-
-    public String getTitle(){
-        return title;
-    }
 
     // Class Builder
     public static class builder {
 
-        private final Books book = new Books();
+        private final BookEntity bookEntity = new BookEntity();
 
 
         public builder setTitle(String title){
-            book.title = title;
+            bookEntity.title = title;
             return this;
         }
 
 
         public builder setIsbn(String isbn){
-            book.isbn = isbn;
+            bookEntity.isbn = isbn;
             return this;
         }
 
-        public builder setAuthor(Authors author){
-            book.authors = author;
+        public builder setAuthor(AuthorEntity authorEntity){
+            bookEntity.authorEntity = authorEntity;
             return this;
         }
 
-        public Books build(){
-
-            return book;
+        public BookEntity build(){
+            return bookEntity;
         }
 
 

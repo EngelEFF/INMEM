@@ -1,49 +1,39 @@
-package com.example.INMEM.persistence;
+package com.example.INMEM.persistence.entities;
 
 import jakarta.persistence.*;
 
 
 @Entity
 @Table(name = "authors")
-public class Authors {
+public class AuthorEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator="author_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="author_id_seq")
     private Long authorID;
     String name;
     int age;
 
-    public Authors(){ }
+    public AuthorEntity(){ }
 
 
-    /*
-    public Authors(String name, int age){
+    //setters
 
-        this.name = name;
-        this.age = age;
+    public void setAuthorID(Long authorID){
+        this.authorID = authorID;
     }
-
 
     public void setName(String name) {
 
         this.name = name;
     }
 
-    public String getName(){
-        return name;
-    }
-
     public void setAge(int age){
         this.age = age;
     }
 
-    public int getAge(){
-        return age;
+    public Long getAuthorID() {
+        return authorID;
     }
-
-
-     */
-
 
     // getters
     public String getName(){
@@ -56,21 +46,21 @@ public class Authors {
 
     // builder
     public static class builder {
-        private final Authors author  = new Authors();
+        private final AuthorEntity authorEntity = new AuthorEntity();
 
 
         public builder setName(String name){
-            author.name = name;
+            authorEntity.name = name;
             return this;
         }
 
         public builder setAge(int age){
-            author.age = age;
+            authorEntity.age = age;
             return this;
         }
 
-        public Authors build(){
-            return author;
+        public AuthorEntity build(){
+            return authorEntity;
         }
 
     }
