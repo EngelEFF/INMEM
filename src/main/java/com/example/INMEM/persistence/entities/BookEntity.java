@@ -2,6 +2,7 @@ package com.example.INMEM.persistence.entities;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 //@Data
@@ -21,17 +22,13 @@ public class BookEntity {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "author_id")
+    @JsonProperty("author")
     private AuthorEntity authorEntity;
 
-    /*
+
     public void setTitle(String title){
         this.title = title;
     }
-
-    public String getTitle(){
-        return title;
-    }
-
 
     public void setIsbn(String isbn){
         this.isbn = isbn;
@@ -41,10 +38,10 @@ public class BookEntity {
         return isbn;
     }
 
-    public Authors getAuthors() {
-        return authors;
+    public AuthorEntity getAuthors() {
+        return authorEntity;
     }
-*/
+
 
     // private constructor to assert the use of builder class
 
@@ -64,16 +61,6 @@ public class BookEntity {
 
     }
 
-
-    // getters;
-
-    public String getIsbn(){
-        return isbn;
-    }
-
-    public String getTitle(){
-        return title;
-    }
 
     // Class Builder
     public static class builder {

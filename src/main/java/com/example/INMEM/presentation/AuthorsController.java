@@ -9,6 +9,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RequestMapping("authors")
 @RestController
 public class AuthorsController{
@@ -28,7 +31,7 @@ public class AuthorsController{
     @PostMapping(path = "/create")
     public AuthorDTO createAuthor(@RequestBody AuthorDTO authorDTO){
 
-        ModelMapper modelMapper = new ModelMapper();
+       // ModelMapper modelMapper = new ModelMapper();
         // This converts author dto to an author entity to be saved
         AuthorEntity authorEntity = authorMapper.mapFrom(authorDTO);
         // Then author entity is then saved and the returned instance is
@@ -39,19 +42,17 @@ public class AuthorsController{
         return authorMapper.mapTo(savedEntity);
 
 
-    } /*
-
-
-    @PostMapping(path = "/create")
-    public AuthorEntity createAuthor(@RequestBody AuthorEntity authorEntity){
-
-        return authorsService.createAuthor(authorEntity);
     }
 
-    @GetMapping(path = "/greet")
-    public String greet(){
 
-        return "Hello, how are you doing?";
+
+    @GetMapping
+    public List<AuthorDTO> listAuthors(){
+
+        List<AuthorEntity> authors = authorsService.findAllEntities();
+        return authors.stream().
+                map(authorMapper::mapTo).
+                collect(Collectors.toList());
     }
-    */
+
 }

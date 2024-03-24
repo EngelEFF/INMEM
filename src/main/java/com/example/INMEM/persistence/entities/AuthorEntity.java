@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 public class AuthorEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator="author_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="author_id_seq")
     private Long authorID;
     String name;
     int age;
