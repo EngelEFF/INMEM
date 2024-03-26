@@ -1,15 +1,16 @@
 package com.example.INMEM.presentation;
 
 import com.example.INMEM.mappers.Mapper;
-import com.example.INMEM.mappers.impl.AuthorMapper;
 import com.example.INMEM.persistence.DTOs.AuthorDTO;
 import com.example.INMEM.persistence.entities.AuthorEntity;
-import com.example.INMEM.service.AuthorsService;
-import org.modelmapper.ModelMapper;
+import com.example.INMEM.service.impl.AuthorsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequestMapping("authors")
@@ -29,22 +30,60 @@ public class AuthorsController{
 
 
     @PostMapping(path = "/create")
-    public AuthorDTO createAuthor(@RequestBody AuthorDTO authorDTO){
+    public ResponseEntity<AuthorDTO> createAuthor(@RequestBody AuthorDTO authorDTO){
 
-       // ModelMapper modelMapper = new ModelMapper();
+
         // This converts author dto to an author entity to be saved
         AuthorEntity authorEntity = authorMapper.mapFrom(authorDTO);
         // Then author entity is then saved and the returned instance is
         // stored in saved entity
-        AuthorEntity savedEntity = authorsService.createAuthor(authorEntity);
+        AuthorEntity savedEntity = authorsService.save(authorEntity);
 
         // The saved author entity is then converted back into an author dto
-        return authorMapper.mapTo(savedEntity);
+        AuthorDTO authorDTO1 = authorMapper.mapTo(savedEntity);
 
+        return new ResponseEntity<>(authorDTO, HttpStatus.CREATED);
 
     }
 
+    @PutMapping(path = "/update/{id}")
+    public ResponseEntity<AuthorDTO> update(@PathVariable("id") Long id,
+                                            @RequestBody AuthorDTO authorDTO){
+        if(!authorsService.exists(id)){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        else{
+            authorDTO.setAuthorID(id);
 
+            AuthorEntity author = authorMapper.mapFrom(authorDTO);
+
+            AuthorEntity update = authorsService.save(author);
+
+            AuthorDTO updated = authorMapper.mapTo(update);
+
+            return new ResponseEntity<>(updated, HttpStatus.OK);
+
+        }
+
+    }
+    @PatchMapping(path = "/updateProp/{id}")
+    public ResponseEntity<AuthorDTO> updatePartially(@PathVariable("id") Long id,
+                                                     @RequestBody AuthorDTO authorDTO){
+
+        if (authorsService.exists(id)){
+
+            AuthorEntity author = authorMapper.mapFrom(authorDTO);
+            AuthorEntity partiallyUpdated = authorsService.partialUpdate(id,author);
+            AuthorDTO partiallyUpdatedDTO = authorMapper.mapTo(partiallyUpdated);
+            return new ResponseEntity<>(partiallyUpdatedDTO, HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+
+
+    }
 
     @GetMapping
     public List<AuthorDTO> listAuthors(){
@@ -54,5 +93,22 @@ public class AuthorsController{
                 map(authorMapper::mapTo).
                 collect(Collectors.toList());
     }
+
+    @GetMapping(path = "author/{id}")
+    public ResponseEntity<AuthorDTO> findAuthor(@PathVariable("id") Long id){
+
+        Optional<AuthorEntity> retrievedEntity = authorsService.findOne(id);
+
+
+
+        return retrievedEntity.map( authorEntity -> {
+
+            AuthorDTO authorDTO = authorMapper.mapTo(authorEntity);
+            return new ResponseEntity<>(authorDTO, HttpStatus.OK);
+
+        }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+
 
 }

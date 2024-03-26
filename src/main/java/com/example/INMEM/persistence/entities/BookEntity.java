@@ -30,6 +30,10 @@ public class BookEntity {
         this.title = title;
     }
 
+    public String getTitle(){
+        return title;
+    }
+
     public void setIsbn(String isbn){
         this.isbn = isbn;
     }
@@ -51,9 +55,9 @@ public class BookEntity {
     both constructors;
 
      */
-    private BookEntity(String name){
+   /* private BookEntity(String name){
         throw new IllegalStateException("Use Builder for initialization");
-    }
+    }*/
 
 
     // Default constructor for JPA

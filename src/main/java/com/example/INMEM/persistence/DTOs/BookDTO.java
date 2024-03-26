@@ -17,7 +17,7 @@ public class BookDTO {
 
     private AuthorEntity authorEntity;
 
-    /*
+
     public void setTitle(String title){
         this.title = title;
     }
@@ -35,10 +35,15 @@ public class BookDTO {
         return isbn;
     }
 
-    public Authors getAuthors() {
-        return authors;
+    public void setAuthorEntity(AuthorEntity authorEntity){
+        this.authorEntity = authorEntity;
     }
-*/
+
+    public AuthorEntity getAuthors() {
+        return authorEntity;
+    }
+
+
 
     // private constructor to assert the use of builder class
 
@@ -48,9 +53,11 @@ public class BookDTO {
     both constructors;
 
      */
+    /*
     private BookDTO(String name) {
         throw new IllegalStateException("Use Builder for initialization");
     }
+    */
 
 
     // Default constructor for JPA
@@ -59,15 +66,6 @@ public class BookDTO {
     }
 
 
-    // getters;
-
-    public String getIsbn() {
-        return isbn;
-    }
-
-    public String getTitle() {
-        return title;
-    }
 
     // Class Builder
     public static class builder {
