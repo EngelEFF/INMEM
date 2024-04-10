@@ -5,6 +5,8 @@ import com.example.INMEM.persistence.DTOs.BookDTO;
 import com.example.INMEM.persistence.entities.BookEntity;
 import com.example.INMEM.service.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +41,7 @@ public class BooksController {
 
         BookDTO savedBookDto = bookMapper.mapTo(savedBookEntity);
 
-        return new ResponseEntity<>(savedBookDto, HttpStatus.CREATED);
+        return new ResponseEntity<>(savedBookDto , HttpStatus.CREATED);
 
 
     }
@@ -62,24 +64,38 @@ public class BooksController {
 
     }
 
+    @PatchMapping( path = "/updateProp/{isbn}")
+
+    ResponseEntity<BookEntity> updateProp(@PathVariable("isbn") String isbn, @RequestBody BookDTO bookDTO){
+
+        if(bookService.exists(isbn)){
+
+
+            BookEntity book = bookMapper.mapFrom(bookDTO);
+
+            BookEntity returnedEntity = bookService.partialUpdate(isbn, book);
+
+            BookDTO returnedEntityDTO = bookMapper.mapTo(returnedEntity);
+
+            return new ResponseEntity(book, HttpStatus.OK);
+        }
+
+        else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @GetMapping
-    public List<BookDTO> listBooks(){
-
-        List<BookEntity> books = bookService.findAllEntities();
-
-        return books.
-                stream().
-                map(bookMapper::mapTo).
-                collect(Collectors.toList());
+    public Page<BookDTO> listBooks(Pageable pageable){
+        Page<BookEntity> books = bookService.findAll(pageable);
+        return books.map(bookMapper::mapTo);
     }
 
     
     @GetMapping(path  = "/{isbn}")
     public ResponseEntity<BookDTO> findABook(@PathVariable("isbn") String isbn){
-
-        Optional<BookEntity> retrievedBook = bookService.findOne(isbn);
         
-       return retrievedBook.map( bookEntity -> {
+       return bookService.findOne(isbn).map( bookEntity -> {
             
             BookDTO bookDTO = bookMapper.mapTo(bookEntity);
             return new ResponseEntity<>(bookDTO, HttpStatus.OK);
@@ -88,12 +104,23 @@ public class BooksController {
 
     }
 
-    @DeleteMapping(path = "/delete" )
-    public String deleteAll(){
+    @DeleteMapping(path = "/{isbn}")
 
-       return bookService.clear();
+    public ResponseEntity deleteBook(@PathVariable("isbn") String isbn){
+
+        if(bookService.exists(isbn)){
+            bookService.deleteBook(isbn);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
-    
-    
+
+    @DeleteMapping(path = "/empty")
+    public ResponseEntity deleteBooks(){
+        bookService.deleteBooks();
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
 
 }

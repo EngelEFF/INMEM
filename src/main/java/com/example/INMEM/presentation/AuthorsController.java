@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequestMapping("authors")
@@ -49,10 +48,8 @@ public class AuthorsController{
     @PutMapping(path = "/update/{id}")
     public ResponseEntity<AuthorDTO> update(@PathVariable("id") Long id,
                                             @RequestBody AuthorDTO authorDTO){
-        if(!authorsService.exists(id)){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        else{
+        if(authorsService.exists(id)){
+
             authorDTO.setAuthorID(id);
 
             AuthorEntity author = authorMapper.mapFrom(authorDTO);
@@ -62,6 +59,11 @@ public class AuthorsController{
             AuthorDTO updated = authorMapper.mapTo(update);
 
             return new ResponseEntity<>(updated, HttpStatus.OK);
+
+        }
+        else{
+
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         }
 
@@ -97,16 +99,31 @@ public class AuthorsController{
     @GetMapping(path = "author/{id}")
     public ResponseEntity<AuthorDTO> findAuthor(@PathVariable("id") Long id){
 
-        Optional<AuthorEntity> retrievedEntity = authorsService.findOne(id);
-
-
-
-        return retrievedEntity.map( authorEntity -> {
+        return authorsService.findOne(id).map( authorEntity -> {
 
             AuthorDTO authorDTO = authorMapper.mapTo(authorEntity);
             return new ResponseEntity<>(authorDTO, HttpStatus.OK);
 
         }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity deleteAuthor(@PathVariable("id") Long id){
+
+        if(authorsService.exists(id)){
+            authorsService.deleteAuthor(id);
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+        else{
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+
+    }
+
+    @DeleteMapping(path = "/empty")
+    public ResponseEntity deleteAuthors(){
+        authorsService.deleteAuthors();
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
 

@@ -5,6 +5,8 @@ import com.example.INMEM.persistence.DAOs.BookRepo;
 import com.example.INMEM.persistence.entities.BookEntity;
 import com.example.INMEM.service.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,10 +36,10 @@ public class BooksService implements BookService {
     }
 
     @Override
-    public String clear(){
-        bookRepo.deleteAll();
-        return "Successfully deleted all records!";
+    public Page<BookEntity> findAll(Pageable pageable){
+        return bookRepo.findAll(pageable);
     }
+
 
     @Override
     public Optional<BookEntity> findOne(String isbn){
@@ -49,6 +51,32 @@ public class BooksService implements BookService {
     public Boolean exists(String isbn){
 
         return bookRepo.existsById(isbn);
+    }
+    
+    @Override
+    public BookEntity partialUpdate(String isbn, BookEntity bookEntity){
+
+        bookEntity.setIsbn(isbn);
+
+        return bookRepo.findById(isbn).map( retrievedBookEntity -> {
+
+            Optional.ofNullable(bookEntity.getTitle()).ifPresent(retrievedBookEntity::setTitle);
+
+             return bookRepo.save(retrievedBookEntity);
+
+        }).orElseThrow(() -> new RuntimeException("Book entity doesn't exists"));
+
+
+    }
+
+    @Override
+    public void deleteBook(String isbn){
+        bookRepo.deleteById(isbn);
+    }
+
+    @Override
+    public void deleteBooks(){
+        bookRepo.deleteAll();
     }
 
 

@@ -11,7 +11,6 @@ import jakarta.persistence.*;
 //@Builder
 @Entity
 @Table(name = "books")
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class BookEntity {
 
 
@@ -22,8 +21,12 @@ public class BookEntity {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "author_id")
-    @JsonProperty("author")
+    //@JsonProperty("author")
     private AuthorEntity authorEntity;
+
+
+    // Default constructor for JPA
+    public BookEntity(){ }
 
 
     public void setTitle(String title){
@@ -40,6 +43,10 @@ public class BookEntity {
 
     public String getIsbn() {
         return isbn;
+    }
+
+    public void setAuthorEntity(AuthorEntity authorEntity) {
+        this.authorEntity = authorEntity;
     }
 
     public AuthorEntity getAuthors() {
@@ -60,11 +67,9 @@ public class BookEntity {
     }*/
 
 
-    // Default constructor for JPA
-    public BookEntity(){
 
-    }
 
+    /*
 
     // Class Builder
     public static class builder {
@@ -94,29 +99,5 @@ public class BookEntity {
 
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    */
 }

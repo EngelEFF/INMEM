@@ -65,6 +65,14 @@ public class AuthorsService implements AuthorService {
 
     }
 
+    public void deleteAuthor(Long id){
+        authorRepo.deleteById(id);
+    }
+
+    public void deleteAuthors(){
+        authorRepo.deleteAll();
+    }
+
 
 }
 

@@ -16,6 +16,7 @@ public class AuthorDTO {
     public String name;
     public int age;
 
+ // NO args constructor
     public AuthorDTO(){}
 
 
@@ -55,6 +56,7 @@ public class AuthorDTO {
         return authorID;
     }
 
+    /*
     // builder
     public static class builder {
         private final AuthorDTO authorDto = new AuthorDTO();
@@ -75,6 +77,6 @@ public class AuthorDTO {
         }
 
     }
-
+    */
 
 }

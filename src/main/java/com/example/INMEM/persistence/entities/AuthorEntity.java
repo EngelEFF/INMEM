@@ -13,7 +13,9 @@ public class AuthorEntity {
     String name;
     int age;
 
+    // No args constructor
     public AuthorEntity(){ }
+
 
 
     //setters
@@ -45,6 +47,7 @@ public class AuthorEntity {
           return age;
     }
 
+    /*
     // builder
     public static class builder {
         private final AuthorEntity authorEntity = new AuthorEntity();
@@ -65,5 +68,7 @@ public class AuthorEntity {
         }
 
     }
+
+     */
 }
 

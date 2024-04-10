@@ -1,10 +1,7 @@
 package com.example.INMEM.persistence.DTOs;
 
 
-import com.example.INMEM.persistence.entities.AuthorEntity;
-import com.example.INMEM.persistence.entities.BookEntity;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.*;
+
 import org.springframework.stereotype.Component;
 
 @Component
@@ -15,7 +12,7 @@ public class BookDTO {
 
     private String title;
 
-    private AuthorEntity authorEntity;
+    private AuthorDTO author;
 
 
     public void setTitle(String title){
@@ -26,7 +23,6 @@ public class BookDTO {
         return title;
     }
 
-
     public void setIsbn(String isbn){
         this.isbn = isbn;
     }
@@ -35,38 +31,20 @@ public class BookDTO {
         return isbn;
     }
 
-    public void setAuthorEntity(AuthorEntity authorEntity){
-        this.authorEntity = authorEntity;
+    public void setAuthorDTO(AuthorDTO author){
+        this.author = author;
     }
 
-    public AuthorEntity getAuthors() {
-        return authorEntity;
+    public AuthorDTO getAuthorDTO() {
+        return author;
     }
 
-
-
-    // private constructor to assert the use of builder class
-
-    /*
-    Though it is not necessary to give the private constructor a
-    parameter but I need to use method overloading in order to maintain
-    both constructors;
-
-     */
-    /*
-    private BookDTO(String name) {
-        throw new IllegalStateException("Use Builder for initialization");
-    }
-    */
-
-
+    // No args constructor
     // Default constructor for JPA
-    public BookDTO() {
-
-    }
+    public BookDTO() { }
 
 
-
+    /*
     // Class Builder
     public static class builder {
 
@@ -84,8 +62,8 @@ public class BookDTO {
             return this;
         }
 
-        public builder setAuthor(AuthorEntity authorEntity) {
-            bookDto.authorEntity = authorEntity;
+        public builder setAuthor(AuthorDTO authorDTO) {
+            bookDto.author = authorDTO;
             return this;
         }
 
@@ -96,4 +74,6 @@ public class BookDTO {
 
     }
 
+
+     */
 }
